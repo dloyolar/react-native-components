@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {ScrollView, View, RefreshControl} from 'react-native';
 import {HeaderTitle} from '../components/HeaderTitle';
 import styles from '../theme/appTheme';
 import {useState} from 'react';
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 
 export const PullToRefreshScreen = () => {
+  const {
+    theme: {colors},
+  } = useContext(ThemeContext);
   const [refreshing, setRefreshing] = useState(false);
   const [data, setData] = useState<string>();
 
@@ -25,9 +29,9 @@ export const PullToRefreshScreen = () => {
           refreshing={refreshing}
           onRefresh={onRefresh}
           progressViewOffset={30}
-          progressBackgroundColor="#5856D6"
-          colors={['white', 'red', 'orange']}
-          tintColor="red"
+          progressBackgroundColor={colors.primary}
+          colors={[colors.text]}
+          tintColor={colors.primary}
         />
       }>
       <View style={styles.globalMargin}>

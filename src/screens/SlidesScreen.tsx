@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import {
   Dimensions,
   Image,
@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {useAnimation} from '../hooks/useAnimation';
 import {StackScreenProps} from '@react-navigation/stack';
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -48,6 +49,10 @@ const items: Slide[] = [
 interface Props extends StackScreenProps<any, any> {}
 
 export const SlidesScreen = ({navigation}: Props) => {
+  const {
+    theme: {colors},
+  } = useContext(ThemeContext);
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   const {opacity, fadeIn} = useAnimation();
@@ -58,7 +63,7 @@ export const SlidesScreen = ({navigation}: Props) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: 'white',
+          backgroundColor: colors.card,
           borderRadius: 5,
           padding: 40,
           justifyContent: 'center',
@@ -67,8 +72,10 @@ export const SlidesScreen = ({navigation}: Props) => {
           source={item.img}
           style={{width: 350, height: 400, resizeMode: 'center'}}
         />
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.subtitle}>{item.desc}</Text>
+        <Text style={{...styles.title, color: colors.text}}>{item.title}</Text>
+        <Text style={{...styles.subtitle, color: colors.text}}>
+          {item.desc}
+        </Text>
       </View>
     );
   };
@@ -102,7 +109,7 @@ export const SlidesScreen = ({navigation}: Props) => {
           height: 80,
         }}>
         <PaginationDot
-          activeDotColor="#5856D6"
+          activeDotColor={colors.primary}
           curPage={activeIndex}
           maxPage={items.length}
         />
@@ -117,7 +124,7 @@ export const SlidesScreen = ({navigation}: Props) => {
         <TouchableOpacity
           style={{
             flexDirection: 'row',
-            backgroundColor: '#5856D6',
+            backgroundColor: colors.primary,
             width: 140,
             height: 50,
             borderRadius: 10,
@@ -142,7 +149,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#5856D6',
   },
   subtitle: {
     fontSize: 16,
